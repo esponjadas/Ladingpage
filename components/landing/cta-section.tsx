@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { trackEvent } from "@/lib/analytics";
 import { Reveal } from "./reveal";
 import { PhoneMockup } from "./phone-mockup";
 
@@ -48,7 +49,10 @@ export function CtaSection({ onWaitlistClick }: CtaSectionProps) {
             <div className="mt-12">
               <button
                 className="premium-button inline-flex rounded-full bg-signal px-10 py-5 text-lg font-bold text-black shadow-[0_20px_40px_rgba(59,207,125,0.12)]"
-                onClick={onWaitlistClick}
+                onClick={() => {
+                  trackEvent("waitlist_click", { location: "final_cta" });
+                  onWaitlistClick();
+                }}
               >
                 <span className="relative z-10">Quero acesso antecipado</span>
               </button>

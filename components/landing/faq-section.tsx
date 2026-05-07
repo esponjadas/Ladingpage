@@ -9,17 +9,22 @@ const faqItems = [
   {
     question: "Quando lança?",
     answer:
-      "O acesso antecipado está sendo liberado em etapas. Quem entrar na lista recebe prioridade e novidades antes do lançamento público.",
+      "O Kerso está em desenvolvimento e terá acesso antecipado para os primeiros usuários da lista.",
   },
   {
     question: "Vai ter iOS?",
     answer:
-      "Sim. O produto está sendo preparado para uma experiência nativa e premium em iPhone, com expansão gradual para outras plataformas.",
+      "A intenção é levar o Kerso para iOS e Android. Os primeiros usuários serão avisados pela lista de espera.",
   },
   {
     question: "O app será gratuito?",
     answer:
-      "Haverá um modelo acessível de entrada, com recursos essenciais para organização financeira e opções avançadas para quem quiser mais profundidade.",
+      "Estamos estudando o melhor modelo para manter o Kerso simples, acessível e sustentável.",
+  },
+  {
+    question: "Meus dados ficam seguros?",
+    answer:
+      "A segurança e a privacidade fazem parte da base do Kerso. Nenhum dado será vendido a terceiros.",
   },
 ];
 
@@ -50,7 +55,7 @@ export function FaqSection({ onWaitlistClick }: FaqSectionProps) {
             </p>
 
             <button
-              className="premium-button mt-10 inline-flex rounded-full bg-signal px-7 py-4 text-sm font-bold text-black shadow-[0_18px_32px_rgba(59,207,125,0.12)]"
+              className="premium-button mt-10 inline-flex min-h-11 rounded-full bg-signal px-7 py-4 text-sm font-bold text-black shadow-[0_18px_32px_rgba(59,207,125,0.12)]"
               onClick={onWaitlistClick}
             >
               <span className="relative z-10">Quero entrar na lista</span>
@@ -72,6 +77,7 @@ export function FaqSection({ onWaitlistClick }: FaqSectionProps) {
                   <button
                     className="relative flex w-full items-center justify-between gap-4 px-6 py-5 text-left md:px-7"
                     onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                    aria-expanded={isOpen}
                   >
                     <span className="font-display text-[1.2rem] font-[740] tracking-[-0.03em] text-white md:text-[1.35rem]">
                       {item.question}

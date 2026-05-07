@@ -1,4 +1,5 @@
 import { Bolt, ChartNoAxesCombined } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { Reveal } from "./reveal";
 
 type FeaturesSectionProps = {
@@ -85,7 +86,10 @@ export function FeaturesSection({ onWaitlistClick }: FeaturesSectionProps) {
             <div className="mt-auto">
               <button
                 className="premium-button w-full rounded-[1rem] bg-signal px-6 py-5 text-lg font-bold text-black shadow-[0_18px_34px_rgba(59,207,125,0.12)]"
-                onClick={onWaitlistClick}
+                onClick={() => {
+                  trackEvent("waitlist_click", { location: "features" });
+                  onWaitlistClick();
+                }}
               >
                 <span className="relative z-10">+ Novo gasto</span>
               </button>

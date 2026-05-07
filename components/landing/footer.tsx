@@ -1,13 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
-const links = [
-  { href: "#preview", label: "Preview do app" },
-  { href: "#", label: "Termos de uso" },
-  { href: "mailto:kersosuporte@gmail.com", label: "kersosuporte@gmail.com" },
-  { href: "#contato", label: "Contato" },
-];
+type FooterProps = {
+  onContactClick: () => void;
+};
 
-export function Footer() {
+export function Footer({ onContactClick }: FooterProps) {
   return (
     <footer id="contato" className="border-t border-white/8 pb-10 pt-14">
       <div className="section-shell">
@@ -24,15 +24,36 @@ export function Footer() {
           </div>
 
           <div className="grid gap-x-12 gap-y-4 text-sm text-white/62 sm:grid-cols-2 md:text-[0.96rem]">
-            {links.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="transition duration-300 hover:text-white"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link
+              href="#preview"
+              className="transition duration-300 hover:text-white"
+              onClick={() => trackEvent("preview_click", { location: "footer" })}
+            >
+              Preview do app
+            </Link>
+            <Link
+              href="/terms"
+              className="transition duration-300 hover:text-white"
+              onClick={() => trackEvent("terms_click", { location: "footer" })}
+            >
+              Termos de uso
+            </Link>
+            <a
+              href="mailto:kersosuporte@gmail.com"
+              className="transition duration-300 hover:text-white"
+              onClick={() => trackEvent("contact_email_click", { location: "footer" })}
+            >
+              kersosuporte@gmail.com
+            </a>
+            <button
+              className="text-left transition duration-300 hover:text-white"
+              onClick={() => {
+                trackEvent("contact_modal_click", { location: "footer" });
+                onContactClick();
+              }}
+            >
+              Contato
+            </button>
           </div>
         </div>
 

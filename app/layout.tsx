@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
+import { ToastProvider } from "@/components/ui/toast-provider";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${manrope.variable} ${sora.variable} bg-obsidian`}>
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );

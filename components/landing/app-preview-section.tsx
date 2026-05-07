@@ -12,14 +12,15 @@ export function AppPreviewSection() {
 
       <Reveal>
         <div className="mx-auto max-w-[62rem] text-center">
-          <h2 className="font-display text-[2.8rem] font-extrabold leading-[1] tracking-[-0.08em] text-white sm:text-[4rem] md:text-[5.1rem]">
-            O Kerso não é só
-            <br />
-            controle financeiro.
-            <br />
-            <span className="text-white/70">É clareza para decidir melhor.</span>
+          <p className="hero-kicker text-[0.72rem] font-medium text-white/44">
+            Preview do app
+          </p>
+          <h2 className="mt-5 font-display text-[2.8rem] font-extrabold leading-[1] tracking-[-0.08em] text-white sm:text-[4rem] md:text-[5.1rem]">
+            Veja o Kerso em ação
           </h2>
-          <div className="mx-auto mt-10 h-[4px] w-16 rounded-full bg-signal/80" />
+          <p className="mx-auto mt-5 max-w-[34rem] text-[1.02rem] leading-[1.86] text-white/62 md:text-lg">
+            Uma experiência simples para entender seu dinheiro de verdade.
+          </p>
         </div>
       </Reveal>
 
