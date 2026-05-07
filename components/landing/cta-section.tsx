@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import { trackEvent } from "@/lib/analytics";
-import { Reveal } from "./reveal";
 import { PhoneMockup } from "./phone-mockup";
+import { Reveal } from "./reveal";
 
 type CtaSectionProps = {
   onWaitlistClick: () => void;
@@ -42,8 +42,8 @@ export function CtaSection({ onWaitlistClick }: CtaSectionProps) {
             </h2>
 
             <p className="mx-auto mt-7 max-w-[35rem] text-[1.02rem] leading-[1.9] text-white/62 md:text-lg">
-              Mais clareza no presente, mais tranquilidade nas decisões e uma
-              relação melhor com o seu dinheiro.
+              Mais clareza no presente, mais tranquilidade nas decisões e uma relação melhor com o
+              seu dinheiro.
             </p>
 
             <div className="mt-12">

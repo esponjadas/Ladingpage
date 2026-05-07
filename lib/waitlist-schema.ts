@@ -7,8 +7,8 @@ export const waitlistSchema = z.object({
     .max(120, "Use um nome mais curto."),
   email: z
     .string()
-    .min(1, "Digite seu e-mail.")
-    .email("Digite um e-mail válido."),
+    .min(1, "Digite seu email.")
+    .email("Digite um email válido."),
 });
 
 export type WaitlistInput = z.infer<typeof waitlistSchema>;

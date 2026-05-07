@@ -1,6 +1,7 @@
 {
   "/api/waitlist/route": "/api/waitlist",
   "/_not-found/page": "/_not-found",
+  "/privacy/page": "/privacy",
   "/terms/page": "/terms",
   "/page": "/"
 }

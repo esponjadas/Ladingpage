@@ -5,7 +5,7 @@ import { ArrowRight, CircleDollarSign, Receipt, TvMinimalPlay } from "lucide-rea
 import { Reveal } from "./reveal";
 
 const beforeItems = [
-  { label: "Fatura Cartão", value: "- R$ 2.450,00", tilt: "-rotate-[4deg]" },
+  { label: "Fatura cartão", value: "- R$ 2.450,00", tilt: "-rotate-[4deg]" },
   { label: "Pix desconhecido", value: "- R$ 120,00", tilt: "rotate-[1.5deg]" },
   { label: "Assinaturas", value: "- R$ 89,90", tilt: "-rotate-[1.25deg]" },
 ];
@@ -108,9 +108,7 @@ export function TransformationSection() {
                     <div className="flex items-center gap-4">
                       <div
                         className={`grid h-12 w-12 place-items-center rounded-full ${
-                          item.active
-                            ? "bg-signal/14 text-signal"
-                            : "bg-white/[0.05] text-white/68"
+                          item.active ? "bg-signal/14 text-signal" : "bg-white/[0.05] text-white/68"
                         }`}
                       >
                         <Icon size={20} />
@@ -118,9 +116,7 @@ export function TransformationSection() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-4">
                           <div>
-                            <p className="text-lg font-bold text-white">
-                              {item.title}
-                            </p>
+                            <p className="text-lg font-bold text-white">{item.title}</p>
                             <p className="text-sm text-white/56">{item.subtitle}</p>
                           </div>
                           <p className="font-display text-[1.3rem] font-bold tracking-[-0.04em] text-white">

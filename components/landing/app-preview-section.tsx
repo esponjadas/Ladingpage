@@ -42,11 +42,7 @@ export function AppPreviewSection() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="relative z-10"
         >
-          <PhoneMockup
-            variant="preview"
-            floatingCards={false}
-            className="max-w-[420px]"
-          />
+          <PhoneMockup variant="preview" floatingCards={false} className="max-w-[420px]" />
         </motion.div>
 
         <motion.div

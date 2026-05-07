@@ -1,7 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Bell, ChartSpline, CircleDollarSign, CreditCard, Goal, Layers3, PiggyBank, ReceiptText, Smartphone, Sparkles, Target, WalletCards } from "lucide-react";
+import {
+  Bell,
+  ChartSpline,
+  CircleDollarSign,
+  CreditCard,
+  Goal,
+  Layers3,
+  PiggyBank,
+  ReceiptText,
+  Smartphone,
+  Sparkles,
+  Target,
+  WalletCards,
+} from "lucide-react";
 import { Reveal } from "./reveal";
 
 const calmCards = [

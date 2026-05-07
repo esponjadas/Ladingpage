@@ -38,12 +38,28 @@ export function Footer({ onContactClick }: FooterProps) {
             >
               Termos de uso
             </Link>
+            <Link
+              href="/privacy"
+              className="transition duration-300 hover:text-white"
+              onClick={() => trackEvent("privacy_click", { location: "footer" })}
+            >
+              Política de privacidade
+            </Link>
             <a
               href="mailto:kersosuporte@gmail.com"
               className="transition duration-300 hover:text-white"
               onClick={() => trackEvent("contact_email_click", { location: "footer" })}
             >
-              kersosuporte@gmail.com
+              Email
+            </a>
+            <a
+              href="https://wa.me/55SEUNUMERO"
+              target="_blank"
+              rel="noreferrer"
+              className="transition duration-300 hover:text-white"
+              onClick={() => trackEvent("contact_whatsapp_click", { location: "footer" })}
+            >
+              WhatsApp
             </a>
             <button
               className="text-left transition duration-300 hover:text-white"
@@ -61,9 +77,7 @@ export function Footer({ onContactClick }: FooterProps) {
           <p>© 2026 Kerso. Todos os direitos reservados.</p>
           <div className="flex items-center gap-3">
             <span className="h-2 w-2 rounded-full bg-signal" />
-            <p className="uppercase tracking-[0.18em] text-white/48">
-              Sistemas operacionais
-            </p>
+            <p className="uppercase tracking-[0.18em] text-white/48">Acesso antecipado ativo</p>
           </div>
         </div>
       </div>

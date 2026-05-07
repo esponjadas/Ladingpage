@@ -8,8 +8,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { MouseEvent } from "react";
-import { Reveal } from "./reveal";
 import { PhoneMockup } from "./phone-mockup";
+import { Reveal } from "./reveal";
 
 export function CinematicSection() {
   const pointerX = useMotionValue(0);
@@ -54,8 +54,8 @@ export function CinematicSection() {
             Dinheiro não deveria ser confuso.
           </h2>
           <p className="mt-6 max-w-[34rem] text-[1.02rem] leading-[1.86] text-white/62 md:text-lg">
-            Quando tudo ganha contexto, você finalmente entende para onde seu
-            dinheiro vai e como retomar o controle com menos ruído.
+            Quando tudo ganha contexto, você finalmente entende para onde seu dinheiro vai e
+            como retomar o controle com menos ruído.
           </p>
         </div>
       </Reveal>
@@ -80,8 +80,8 @@ export function CinematicSection() {
               Você finalmente entende para onde seu dinheiro vai.
             </h3>
             <p className="mt-5 text-[1rem] leading-[1.82] text-white/62 md:text-[1.05rem]">
-              Menos improviso. Menos culpa. Mais calma para decidir, gastar e
-              planejar com clareza.
+              Menos improviso. Menos culpa. Mais calma para decidir, gastar e planejar com
+              clareza.
             </p>
           </div>
 

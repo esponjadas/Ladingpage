@@ -10,10 +10,15 @@ export async function POST(request: Request) {
     });
 
     if (!result.ok) {
-      return NextResponse.json(result, { status: result.type === "duplicate" ? 409 : 400 });
+      return NextResponse.json(result, {
+        status: result.type === "duplicate" ? 409 : 400,
+      });
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      queuePosition: result.queuePosition,
+    });
   } catch {
     return NextResponse.json(
       {

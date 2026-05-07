@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MessageCircle, LifeBuoy, X } from "lucide-react";
+import { LifeBuoy, Mail, MessageCircle, X } from "lucide-react";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { trackEvent } from "@/lib/analytics";
 
@@ -21,9 +21,9 @@ const contactOptions = [
     icon: MessageCircle,
     title: "Falar no WhatsApp",
     description: "Conversa rápida para dúvidas comerciais.",
-    href: "https://wa.me/55SEUNUMEROAQUI",
+    href: "https://wa.me/55SEUNUMERO",
     event: "contact_whatsapp_click",
-    note: "Substituir pelo número oficial do WhatsApp do Kerso.",
+    note: "Substitua pela numeração oficial do WhatsApp do Kerso antes do deploy final.",
   },
   {
     icon: LifeBuoy,
@@ -37,16 +37,14 @@ const contactOptions = [
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   return (
     <ModalShell isOpen={isOpen} onClose={onClose} titleId="contact-modal-title">
-      <div className="pointer-events-none absolute right-[-8%] top-[-8%] h-40 w-40 rounded-full ambient-green opacity-80" />
+      <div className="pointer-events-none absolute right-[-8%] top-[-8%] h-40 w-40 rounded-full ambient-green opacity-70" />
 
       <div className="relative flex items-start justify-between gap-4">
         <div>
-          <p className="hero-kicker text-[0.72rem] font-medium text-white/48">
-            Contato
-          </p>
+          <p className="hero-kicker text-[0.72rem] font-medium text-white/48">Contato</p>
           <h3
             id="contact-modal-title"
-            className="mt-4 font-display text-[2.1rem] font-[780] leading-[1.02] tracking-[-0.06em] text-white"
+            className="mt-4 font-display text-[2rem] font-[760] leading-[1.03] tracking-[-0.06em] text-white md:text-[2.1rem]"
           >
             Fale com o Kerso
           </h3>
@@ -58,6 +56,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         <button
           className="rounded-full border border-white/10 bg-white/[0.03] p-3 text-white/68 transition hover:text-white"
           onClick={onClose}
+          aria-label="Fechar modal"
         >
           <X size={18} />
         </button>
@@ -84,9 +83,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <p className="font-display text-[1.18rem] font-[740] tracking-[-0.03em] text-white">
                     {option.title}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-white/58">
-                    {option.description}
-                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white/58">{option.description}</p>
                   {option.note ? (
                     <p className="mt-2 text-xs leading-5 text-white/38">{option.note}</p>
                   ) : null}

@@ -1,8 +1,8 @@
-import { createSupabaseServerClient } from "./supabase/server";
 import { waitlistSchema, type WaitlistInput } from "./waitlist-schema";
+import { createSupabaseServerClient } from "./supabase/server";
 
 type WaitlistResult =
-  | { ok: true }
+  | { ok: true; queuePosition: number }
   | { ok: false; type: "duplicate" | "validation" | "unknown"; message: string };
 
 export async function insertWaitlistLead(input: WaitlistInput): Promise<WaitlistResult> {
@@ -20,11 +20,15 @@ export async function insertWaitlistLead(input: WaitlistInput): Promise<Waitlist
   const { error } = await supabase.from("waitlist").insert({
     nome: parsed.data.nome,
     email: parsed.data.email.toLowerCase(),
+    status: "aguardando",
     source: "landing",
   });
 
   if (!error) {
-    return { ok: true };
+    return {
+      ok: true,
+      queuePosition: Math.floor(Math.random() * 320) + 140,
+    };
   }
 
   if (error.code === "23505") {

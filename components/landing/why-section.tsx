@@ -23,16 +23,13 @@ export function WhySection() {
 
       <Reveal>
         <div className="max-w-[42rem]">
-          <p className="hero-kicker text-[0.72rem] font-medium text-white/44">
-            Por que Kerso
-          </p>
+          <p className="hero-kicker text-[0.72rem] font-medium text-white/44">Por que Kerso</p>
           <h2 className="mt-5 max-w-[11ch] font-display text-[2.75rem] font-[780] leading-[1.02] tracking-[-0.07em] text-white sm:text-[3.5rem] md:text-[4.4rem]">
             Um app financeiro que parece feito para a vida real.
           </h2>
           <p className="mt-6 max-w-[34rem] text-[1.02rem] leading-[1.85] text-white/62 md:text-lg">
-            O Kerso não quer só registrar números. Ele quer devolver clareza,
-            calma e senso de direção para quem cansou de se sentir sempre atrás
-            do próprio dinheiro.
+            O Kerso não quer só registrar números. Ele quer devolver clareza, calma e senso de
+            direção para quem cansou de se sentir sempre atrás do próprio dinheiro.
           </p>
         </div>
       </Reveal>

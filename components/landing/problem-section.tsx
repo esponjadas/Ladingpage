@@ -20,7 +20,7 @@ const problems = [
 
 export function ProblemSection() {
   return (
-    <section id="como-funciona" className="section-shell section-vignette relative py-20 md:py-28">
+    <section className="section-shell section-vignette relative py-20 md:py-28">
       <div className="pointer-events-none absolute left-[8%] top-[32%] h-32 w-32 rounded-full bg-white/[0.025] blur-3xl" />
       <Reveal>
         <h2 className="max-w-[11ch] font-display text-[2.7rem] font-extrabold leading-[1.02] tracking-[-0.06em] text-white sm:text-[3.1rem] md:mx-auto md:text-center md:text-[4.15rem]">

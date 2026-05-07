@@ -28,8 +28,8 @@ export function FeaturesSection({ onWaitlistClick }: FeaturesSectionProps) {
                   Saldo disponível real
                 </h3>
                 <p className="mt-4 text-[1.03rem] leading-[1.78] text-white/66 md:text-lg">
-                  Saiba exatamente quanto você pode gastar hoje, considerando
-                  suas reservas e contas a pagar.
+                  Saiba exatamente quanto você pode gastar hoje, considerando suas reservas e
+                  contas a pagar.
                 </p>
 
                 <div className="mt-10 max-w-[24rem] rounded-[1.8rem] border border-white/8 bg-black/28 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
@@ -136,8 +136,7 @@ export function FeaturesSection({ onWaitlistClick }: FeaturesSectionProps) {
                   Controle de entradas e despesas
                 </h3>
                 <p className="mt-4 max-w-[28rem] text-[1.02rem] leading-[1.76] text-white/66 md:text-lg">
-                  Visualize o fluxo do seu dinheiro com gráficos simples que
-                  qualquer um entende.
+                  Visualize o fluxo do seu dinheiro com gráficos simples que qualquer um entende.
                 </p>
               </div>
 
