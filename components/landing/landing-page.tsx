@@ -3,21 +3,16 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
+  ArrowDown,
   ArrowRight,
-  BarChart3,
-  Bot,
   Check,
-  ChevronRight,
-  FileText,
+  Eye,
   LockKeyhole,
-  PieChart,
   Play,
-  ReceiptText,
   ShieldCheck,
-  Smartphone,
+  Sparkles,
   WalletCards,
 } from "lucide-react";
 
@@ -25,41 +20,34 @@ const SUPPORT_EMAIL = "kersosuporte@gmail.com";
 const SUPPORT_LINK = `mailto:${SUPPORT_EMAIL}`;
 
 const reveal = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 26 },
   visible: { opacity: 1, y: 0 },
 };
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const screens: Array<[string, string, string]> = [
-  ["Dashboard", "Saldo, receitas, despesas e evolução em uma visão limpa.", "dashboard"],
-  ["Calendário financeiro", "Veja o mês em segundos, com dias positivos e negativos.", "calendar"],
-  ["Categorias", "Alimentação, transporte, moradia e tudo que importa.", "categories"],
-  ["Relatórios", "PDF mensal com gastos, receitas, categorias e evolução.", "report"],
-  ["Perfil", "Preferências, segurança e sua experiência personalizada.", "profile"],
+const familiarPhrases = [
+  "Eu nem gastei tanto esse mês.",
+  "Quando recebi tinha dinheiro.",
+  "Eu começo a economizar mês que vem.",
+  "Não sei para onde meu salário foi.",
+  "Eu precisava guardar dinheiro.",
 ];
 
-const features: Array<[string, string, LucideIcon]> = [
-  ["IA integrada", "Organiza seus gastos automaticamente.", Bot],
-  ["Registro rápido", "Sem burocracia para anotar o que acabou de acontecer.", ReceiptText],
-  ["Relatórios inteligentes", "Entenda seus hábitos financeiros sem abrir planilha.", BarChart3],
-  ["Controle completo", "Receitas, despesas e metas no mesmo lugar.", WalletCards],
-  ["Visual moderno", "Interface escura, limpa e intuitiva.", Smartphone],
-  ["Dados seguros", "Proteção das informações e foco em privacidade.", ShieldCheck],
+const tinyExpenses = [
+  ["R$ 15", "um lanche rápido"],
+  ["R$ 25", "entrega sem pensar"],
+  ["R$ 40", "uma compra pequena"],
+  ["R$ 18", "assinatura esquecida"],
+  ["R$ 32", "corrida de última hora"],
 ];
 
-const steps: Array<[string, string, string, LucideIcon]> = [
-  ["1", "Você registra", "R$ 50 no iFood", ReceiptText],
-  ["2", "O Kerso entende", "A IA identifica categoria automaticamente.", Bot],
-  ["3", "Você acompanha", "Tudo organizado em gráficos e relatórios.", BarChart3],
+const trustItems = [
+  ["Simplicidade", "Nada de planilhas, menus infinitos ou confusão."],
+  ["Clareza", "Você entende o dinheiro antes que ele desapareça."],
+  ["Privacidade", "Uma experiência pensada para proteger seus dados."],
+  ["Organização", "Pequenas decisões começam a fazer sentido juntas."],
 ];
 
-function StoreButton({ compact = false }: { compact?: boolean }) {
+function StoreButton({ large = false }: { large?: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -73,19 +61,19 @@ function StoreButton({ compact = false }: { compact?: boolean }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`group inline-flex items-center justify-center gap-2 rounded-full bg-[#20e383] font-bold text-[#03120a] shadow-[0_18px_48px_rgba(32,227,131,0.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#49f39e] hover:shadow-[0_22px_60px_rgba(32,227,131,0.26)] ${
-          compact ? "px-5 py-3 text-sm" : "min-h-14 px-7 py-4 text-base"
+        className={`group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#29e184] font-black uppercase tracking-[0.08em] text-[#021008] shadow-[0_22px_70px_rgba(41,225,132,0.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#54f6a2] hover:shadow-[0_28px_90px_rgba(41,225,132,0.28)] sm:w-auto ${
+          large ? "min-h-16 px-9 text-sm sm:text-base" : "min-h-12 px-6 text-xs"
         }`}
       >
-        <Play size={17} fill="currentColor" />
+        <Play size={16} fill="currentColor" />
         BAIXAR NA PLAY STORE
-        <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
+        <ArrowRight size={16} className="transition group-hover:translate-x-1" />
       </button>
 
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed bottom-5 left-1/2 z-[100] -translate-x-1/2 rounded-full border border-white/10 bg-[#101411]/90 px-5 py-3 text-sm font-semibold text-white shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+            className="fixed bottom-5 left-1/2 z-[100] -translate-x-1/2 rounded-full border border-white/10 bg-[#0d100e]/92 px-5 py-3 text-sm font-bold text-white shadow-[0_22px_80px_rgba(0,0,0,0.48)] backdrop-blur-2xl"
             initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -98,308 +86,300 @@ function StoreButton({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function LogoMark() {
+function LogoMark({ compact = false }: { compact?: boolean }) {
   return (
-    <Link href="/" className="flex items-center gap-3" aria-label="Kerso">
-      <span className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-        <Image src="/Kersologo-transparent.png" alt="" width={28} height={28} className="h-7 w-7 object-contain" priority />
+    <Link href="/" className="group flex items-center gap-3" aria-label="Kerso">
+      <span className={`${compact ? "h-10 w-10" : "h-12 w-12"} grid place-items-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_55px_rgba(0,0,0,0.25)]`}>
+        <Image src="/Kersologo-transparent.png" alt="" width={compact ? 34 : 40} height={compact ? 34 : 40} className="h-[86%] w-[86%] object-contain transition duration-500 group-hover:scale-105" priority />
       </span>
-      <span className="font-display text-sm font-bold tracking-[0.18em] text-white">KERSO</span>
+      <span>
+        <span className="block font-display text-sm font-black tracking-[0.22em] text-white">KERSO</span>
+        {!compact ? <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/36">clareza financeira</span> : null}
+      </span>
     </Link>
   );
 }
 
-function PhoneShell({ type = "dashboard", small = false }: { type?: string; small?: boolean }) {
+function MiniStatement() {
   return (
-    <div className={`relative mx-auto rounded-[2.4rem] border border-white/12 bg-[#202421] p-2 shadow-[0_40px_120px_rgba(0,0,0,0.55)] ${small ? "w-[210px]" : "w-[290px] sm:w-[330px]"}`}>
-      <div className="overflow-hidden rounded-[2rem] bg-[#070907] p-4">
-        <div className="mb-5 flex items-center justify-between text-[11px] font-semibold text-white/80">
-          <span>9:41</span>
-          <span className="h-2 w-8 rounded-full bg-white/18" />
-        </div>
-        <div className="mb-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Image src="/Kersologo-transparent.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" />
+    <div className="relative mx-auto max-w-[390px] rounded-[2rem] border border-white/10 bg-[#080b09]/86 p-4 shadow-[0_44px_140px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:p-5">
+      <div className="absolute -inset-5 -z-10 rounded-[2.5rem] bg-[#29e184]/10 blur-3xl" />
+      <div className="mb-5 flex items-center justify-between">
+        <LogoMark compact />
+        <span className="rounded-full border border-[#29e184]/20 bg-[#29e184]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#65f4aa]">Kerso</span>
+      </div>
+      <div className="rounded-[1.7rem] border border-white/8 bg-white/[0.035] p-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/38">percepção do mês</p>
+        <p className="mt-3 font-display text-4xl font-black tracking-[-0.08em] text-white">R$ 800</p>
+        <p className="mt-2 text-sm leading-6 text-white/54">podem sumir em pequenas decisões que pareciam inofensivas.</p>
+      </div>
+      <div className="mt-4 space-y-2">
+        {tinyExpenses.slice(0, 4).map(([value, label], index) => (
+          <div key={label} className="flex items-center justify-between rounded-2xl border border-white/8 bg-[#0d100e] px-4 py-3">
+            <span className="text-sm text-white/56">{label}</span>
+            <span className={`font-bold ${index === 3 ? "text-[#29e184]" : "text-white"}`}>{value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionTitle({ eyebrow, title, text, center = false }: { eyebrow: string; title: string; text?: string; center?: boolean }) {
+  return (
+    <motion.div
+      variants={reveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className={`${center ? "mx-auto text-center" : ""} max-w-3xl`}
+    >
+      <p className="text-xs font-black uppercase tracking-[0.24em] text-[#29e184]">{eyebrow}</p>
+      <h2 className="mt-4 font-display text-[2.35rem] font-black leading-[1.02] tracking-[-0.075em] text-white sm:text-[3.7rem]">
+        {title}
+      </h2>
+      {text ? <p className="mt-5 text-base leading-8 text-white/58 sm:text-lg">{text}</p> : null}
+    </motion.div>
+  );
+}
+
+function KersoPreview() {
+  return (
+    <div className="relative mx-auto max-w-[430px] rounded-[2.2rem] border border-white/10 bg-[#080a09]/88 p-5 shadow-[0_46px_150px_rgba(0,0,0,0.52)]">
+      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-[radial-gradient(circle_at_50%_0%,rgba(41,225,132,0.18),transparent_60%)] blur-2xl" />
+      <div className="mb-8 flex items-center justify-between">
+        <LogoMark compact />
+        <Eye size={18} className="text-[#29e184]" />
+      </div>
+      <div className="space-y-3">
+        <div className="rounded-3xl border border-white/8 bg-white/[0.035] p-5">
+          <p className="text-xs uppercase tracking-[0.18em] text-white/36">clareza atual</p>
+          <div className="mt-5 flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-bold text-white">Kerso</p>
-              <p className="text-[11px] text-white/42">Finance OS</p>
+              <p className="font-display text-3xl font-black tracking-[-0.07em] text-white">R$ 3.420</p>
+              <p className="mt-1 text-sm text-white/48">saldo projetado</p>
+            </div>
+            <div className="flex h-20 items-end gap-2">
+              {[36, 62, 48, 78, 58].map((height, index) => (
+                <span key={height} className={`w-5 rounded-t-full ${index === 3 ? "bg-[#29e184]" : "bg-white/14"}`} style={{ height: `${height}%` }} />
+              ))}
             </div>
           </div>
-          <span className="rounded-full border border-white/10 px-2 py-1 text-[10px] text-[#20e383]">IA</span>
         </div>
-        {type === "dashboard" ? <DashboardScreen /> : null}
-        {type === "calendar" ? <CalendarScreen /> : null}
-        {type === "categories" ? <CategoriesScreen /> : null}
-        {type === "report" ? <ReportScreen /> : null}
-        {type === "profile" ? <ProfileScreen /> : null}
-      </div>
-    </div>
-  );
-}
-
-function DashboardScreen() {
-  return (
-    <div className="space-y-3">
-      <div className="rounded-3xl border border-white/8 bg-[linear-gradient(180deg,#121812,#0b0e0c)] p-4">
-        <p className="text-xs text-white/48">Saldo atual</p>
-        <p className="mt-2 font-display text-3xl font-extrabold tracking-[-0.06em] text-white">R$ 3.840,20</p>
-        <p className="mt-2 text-xs font-semibold text-[#20e383]">+12% este mês</p>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-white/8 bg-white/[0.035] p-3">
-          <p className="text-[11px] text-white/42">Receitas</p>
-          <p className="mt-1 text-sm font-bold text-white">R$ 5.200</p>
-        </div>
-        <div className="rounded-2xl border border-white/8 bg-white/[0.035] p-3">
-          <p className="text-[11px] text-white/42">Despesas</p>
-          <p className="mt-1 text-sm font-bold text-white">R$ 1.359</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-3xl border border-white/8 bg-white/[0.035] p-4">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-white/34">antes</p>
+            <p className="mt-3 text-sm leading-6 text-white/58">gastos soltos, memória cansada, dúvida.</p>
+          </div>
+          <div className="rounded-3xl border border-[#29e184]/20 bg-[#29e184]/10 p-4">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-[#79f5b4]">depois</p>
+            <p className="mt-3 text-sm leading-6 text-white/72">consciência, visão do mês, decisão melhor.</p>
+          </div>
         </div>
       </div>
-      <div className="rounded-2xl border border-white/8 bg-white/[0.035] p-4">
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-xs text-white/48">Categorias</span>
-          <PieChart size={16} className="text-[#20e383]" />
-        </div>
-        <div className="flex h-24 items-end gap-2">
-          {[48, 78, 42, 62, 34].map((height, index) => (
-            <span className={`w-full rounded-t-full ${index === 1 ? "bg-[#20e383]" : "bg-white/16"}`} style={{ height: `${height}%` }} key={height} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CalendarScreen() {
-  const days = ["+", "+", "-", "+", "+", "-", "+", "+", "+", "-", "+", "+", "-", "+", "+"];
-  return (
-    <div>
-      <p className="text-xs text-white/48">Maio</p>
-      <h3 className="mt-1 text-lg font-bold text-white">Calendário financeiro</h3>
-      <div className="mt-5 grid grid-cols-5 gap-2">
-        {days.map((day, index) => (
-          <span
-            key={`${day}-${index}`}
-            className={`grid aspect-square place-items-center rounded-xl text-xs font-bold ${day === "+" ? "bg-[#20e383]/16 text-[#20e383]" : "bg-[#ff5b5b]/14 text-[#ff7373]"}`}
-          >
-            {index + 1}
-          </span>
-        ))}
-      </div>
-      <div className="mt-5 space-y-2 text-xs text-white/52">
-        <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#20e383]" />saldo positivo</p>
-        <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#ff7373]" />saldo negativo</p>
-      </div>
-    </div>
-  );
-}
-
-function CategoriesScreen() {
-  return (
-    <div className="space-y-3">
-      {["Alimentação", "Transporte", "Moradia", "Lazer"].map((item, index) => (
-        <div className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.035] p-3" key={item}>
-          <span className="text-sm text-white/70">{item}</span>
-          <strong className="text-sm text-white">{[38, 24, 21, 17][index]}%</strong>
-        </div>
-      ))}
-      <div className="flex items-center gap-2 rounded-2xl bg-[#20e383]/10 p-3 text-xs font-semibold text-[#20e383]">
-        <Bot size={15} /> iFood → Alimentação
-      </div>
-    </div>
-  );
-}
-
-function ReportScreen() {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-[#f5f7f2] p-5 text-[#101410]">
-      <FileText size={22} />
-      <h3 className="mt-4 text-xl font-black tracking-[-0.04em]">Relatório mensal</h3>
-      <p className="mt-1 text-xs text-black/50">PDF • Maio 2026</p>
-      <div className="mt-8 flex h-28 items-end gap-2">
-        {[42, 72, 56, 86, 48].map((height) => (
-          <span className="w-full rounded-t bg-[#111]" style={{ height: `${height}%` }} key={height} />
-        ))}
-      </div>
-      <div className="mt-6 space-y-2">
-        <span className="block h-2 rounded-full bg-black/14" />
-        <span className="block h-2 w-3/4 rounded-full bg-black/14" />
-        <span className="block h-2 w-1/2 rounded-full bg-black/14" />
-      </div>
-    </div>
-  );
-}
-
-function ProfileScreen() {
-  return (
-    <div className="space-y-3">
-      <div className="rounded-3xl border border-white/8 bg-white/[0.035] p-4">
-        <LockKeyhole size={18} className="text-[#20e383]" />
-        <p className="mt-4 font-bold text-white">Dados seguros</p>
-        <p className="mt-1 text-xs text-white/46">Conta, preferências e suporte</p>
-      </div>
-      {["Moeda padrão", "Notificações", "Exportar dados"].map((item) => (
-        <div className="rounded-2xl border border-white/8 bg-white/[0.035] p-3 text-sm text-white/70" key={item}>{item}</div>
-      ))}
     </div>
   );
 }
 
 export function LandingPage() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#030504] text-white">
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_70%_0%,rgba(32,227,131,0.13),transparent_28%),radial-gradient(circle_at_15%_10%,rgba(255,255,255,0.055),transparent_18%),linear-gradient(180deg,#030504,#050706_46%,#020302)]" />
-      <div className="page-noise pointer-events-none fixed inset-0 z-0 opacity-20" />
+    <main className="min-h-screen overflow-x-clip bg-[#020302] text-white">
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,225,132,0.11),transparent_25%),radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.045),transparent_22%),linear-gradient(180deg,#050706_0%,#020302_48%,#010201_100%)]" />
+      <div className="page-noise pointer-events-none fixed inset-0 z-0 opacity-18" />
 
       <div className="relative z-10">
         <header className="section-shell sticky top-0 z-50 pt-4">
-          <div className="flex items-center justify-between rounded-full border border-white/10 bg-[#070907]/72 px-3 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:px-5">
-            <LogoMark />
-            <nav className="hidden items-center gap-6 text-sm font-medium text-white/56 md:flex">
-              <a href="#como-funciona" className="transition hover:text-white">Como funciona</a>
-              <a href="#telas" className="transition hover:text-white">Telas</a>
-              <a href="#relatorios" className="transition hover:text-white">Relatórios</a>
+          <div className="flex items-center justify-between rounded-full border border-white/10 bg-[#060806]/76 px-3 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-2xl md:px-5">
+            <LogoMark compact />
+            <nav className="hidden items-center gap-7 text-sm font-semibold text-white/52 md:flex">
+              <a href="#problema" className="transition hover:text-white">Problema</a>
+              <a href="#kerso" className="transition hover:text-white">Kerso</a>
+              <a href="#confianca" className="transition hover:text-white">Confiança</a>
             </nav>
-            <StoreButton compact />
+            <StoreButton />
           </div>
         </header>
 
-        <section className="section-shell grid min-h-[calc(100svh-88px)] items-center gap-12 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
-          <motion.div variants={stagger} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
-            <motion.p variants={reveal} className="text-xs font-bold uppercase tracking-[0.22em] text-[#20e383]">Kerso para Android</motion.p>
-            <motion.h1 variants={reveal} className="mt-6 font-display text-[3rem] font-black leading-[0.96] tracking-[-0.08em] text-white sm:text-[4.6rem] lg:text-[6rem]">
-              Controle seu dinheiro sem planilhas.
+        <section className="section-shell grid min-h-[calc(100svh-84px)] items-center gap-12 py-14 lg:grid-cols-[1.03fr_0.97fr] lg:py-20">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.1 }}
+            className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left"
+          >
+            <motion.div variants={reveal} transition={{ duration: 0.7 }} className="mx-auto mb-8 flex w-fit justify-center lg:mx-0">
+              <LogoMark />
+            </motion.div>
+            <motion.p variants={reveal} className="text-xs font-black uppercase tracking-[0.24em] text-[#29e184]">gestão financeira inteligente</motion.p>
+            <motion.h1 variants={reveal} className="mt-5 font-display text-[3rem] font-black leading-[0.97] tracking-[-0.085em] text-white sm:text-[4.6rem] lg:text-[5.9rem]">
+              Você trabalha todos os meses. Então por que o dinheiro continua desaparecendo?
             </motion.h1>
-            <motion.p variants={reveal} className="mx-auto mt-6 max-w-xl text-base leading-8 text-white/62 sm:text-lg lg:mx-0">
-              Registre gastos em segundos, acompanhe sua evolução e entenda para onde seu dinheiro está indo.
+            <motion.p variants={reveal} className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg lg:mx-0">
+              Milhares de pessoas não gastam porque querem. Gastam porque nunca conseguem enxergar para onde o dinheiro está indo.
             </motion.p>
             <motion.div variants={reveal} className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <StoreButton />
-              <a href="#como-funciona" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-7 py-4 font-bold text-white/88 transition hover:-translate-y-0.5 hover:bg-white/[0.06]">
-                VER COMO FUNCIONA <ChevronRight size={17} />
+              <StoreButton large />
+              <a href="#kerso" className="inline-flex min-h-16 w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-8 text-sm font-black uppercase tracking-[0.08em] text-white/86 transition hover:-translate-y-0.5 hover:bg-white/[0.065] sm:w-auto">
+                CONHECER O KERSO <ArrowRight size={17} />
               </a>
             </motion.div>
-            <motion.div variants={reveal} className="mt-7 flex flex-wrap justify-center gap-3 text-sm text-white/58 lg:justify-start">
-              <span className="inline-flex items-center gap-2"><Check size={14} className="text-[#20e383]" /> IA para categorias</span>
-              <span className="inline-flex items-center gap-2"><Check size={14} className="text-[#20e383]" /> Calendário financeiro</span>
-              <span className="inline-flex items-center gap-2"><Check size={14} className="text-[#20e383]" /> PDF mensal</span>
-            </motion.div>
+            <motion.a variants={reveal} href="#problema" className="mx-auto mt-10 inline-flex items-center gap-2 text-sm font-semibold text-white/42 transition hover:text-white lg:mx-0">
+              Existe algo importante para descobrir <ArrowDown size={16} />
+            </motion.a>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="relative mx-auto w-full max-w-[520px]">
-            <div className="absolute inset-8 rounded-full bg-[#20e383]/18 blur-[90px]" />
-            <PhoneShell type="dashboard" />
-            <div className="absolute left-0 top-[18%] hidden rounded-3xl border border-white/10 bg-[#101411]/80 p-4 shadow-[0_22px_80px_rgba(0,0,0,0.38)] backdrop-blur-xl sm:block">
-              <p className="text-xs text-white/44">Receitas</p>
-              <p className="mt-1 text-xl font-black text-white">R$ 5.200</p>
-            </div>
-            <div className="absolute bottom-[18%] right-0 hidden rounded-3xl border border-white/10 bg-[#101411]/80 p-4 shadow-[0_22px_80px_rgba(0,0,0,0.38)] backdrop-blur-xl sm:block">
-              <p className="text-xs text-white/44">iFood detectado</p>
-              <p className="mt-1 text-base font-black text-[#20e383]">Alimentação</p>
-            </div>
+          <motion.div
+            initial={{ opacity: 0, y: 32, scale: 0.98 }}
+            animate={{ opacity: 1, y: prefersReducedMotion ? 0 : [0, -8, 0], scale: 1 }}
+            transition={{ duration: prefersReducedMotion ? 0.7 : 6, repeat: prefersReducedMotion ? 0 : Infinity, ease: "easeInOut" }}
+            className="relative"
+          >
+            <MiniStatement />
           </motion.div>
         </section>
 
-        <section id="como-funciona" className="section-shell py-20">
-          <SectionHeading kicker="Como funciona" title="Do gasto ao relatório sem abrir uma planilha." />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {steps.map(([number, title, text, Icon]) => (
-              <article key={title} className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-7 shadow-[0_24px_90px_rgba(0,0,0,0.18)]">
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-[#20e383]/12 text-sm font-black text-[#20e383]">{number}</span>
-                <Icon className="mt-8 text-white" size={24} />
-                <h3 className="mt-5 font-display text-2xl font-black tracking-[-0.04em]">{title}</h3>
-                <p className="mt-3 leading-7 text-white/58">{text}</p>
-              </article>
+        <section id="problema" className="section-shell py-20 sm:py-28">
+          <SectionTitle center eyebrow="parece familiar?" title="O dinheiro não some de uma vez. Ele escapa em silêncio." />
+          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {familiarPhrases.map((phrase, index) => (
+              <motion.article
+                key={phrase}
+                variants={reveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-70px" }}
+                transition={{ duration: 0.55, delay: index * 0.05 }}
+                className="rounded-[1.6rem] border border-white/10 bg-white/[0.035] p-5 text-sm leading-6 text-white/72 shadow-[0_18px_70px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-1 hover:border-white/18 hover:bg-white/[0.055]"
+              >
+                “{phrase}”
+              </motion.article>
             ))}
           </div>
         </section>
 
-        <section id="telas" className="section-shell py-20">
-          <SectionHeading center kicker="Telas reais" title="O produto vende o produto." text="Dashboard, calendário, categorias, relatórios e perfil em uma experiência horizontal, limpa e pronta para uso." />
-          <div className="hide-scrollbar mt-12 flex gap-5 overflow-x-auto pb-4">
-            {screens.map(([title, description, type]) => (
-              <article key={title} className="min-w-[260px] rounded-[2rem] border border-white/10 bg-white/[0.035] p-4">
-                <PhoneShell type={type} small />
-                <h3 className="mt-5 font-display text-xl font-black tracking-[-0.04em]">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/56">{description}</p>
-              </article>
-            ))}
+        <section className="section-shell py-16 sm:py-24">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+            <SectionTitle eyebrow="a soma invisível" title="Pequenos gastos parecem inofensivos. Até o mês fechar." text="Um valor aqui, outro ali, uma decisão rápida no meio do dia. Separados, eles parecem pequenos. Juntos, contam uma história que quase ninguém para para olhar." />
+            <div className="rounded-[2.2rem] border border-white/10 bg-[#080a09]/82 p-5 shadow-[0_34px_130px_rgba(0,0,0,0.34)]">
+              <div className="grid gap-3 sm:grid-cols-2">
+                {tinyExpenses.map(([value, label]) => (
+                  <div key={label} className="rounded-3xl border border-white/8 bg-white/[0.035] p-5">
+                    <p className="font-display text-3xl font-black tracking-[-0.07em] text-white">{value}</p>
+                    <p className="mt-2 text-sm text-white/46">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 rounded-3xl border border-[#29e184]/20 bg-[#29e184]/10 p-6">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#75f6b1]">resultado percebido tarde demais</p>
+                <p className="mt-3 font-display text-5xl font-black tracking-[-0.08em] text-white">R$ 800</p>
+                <p className="mt-2 leading-7 text-white/62">desaparecem sem parecer uma decisão grande.</p>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="section-shell py-20">
-          <SectionHeading kicker="Diferenciais" title="Controle financeiro com menos fricção e mais clareza." />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(([title, text, Icon]) => (
-              <article key={String(title)} className="rounded-[1.7rem] border border-white/10 bg-[#0b0f0d]/78 p-6">
-                <Icon size={22} className="text-[#20e383]" />
-                <h3 className="mt-5 font-display text-xl font-black tracking-[-0.04em]">{title}</h3>
-                <p className="mt-2 leading-7 text-white/56">{text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-shell grid items-center gap-10 py-20 lg:grid-cols-[0.85fr_1fr]">
-          <PhoneShell type="calendar" />
-          <SectionHeading kicker="Calendário financeiro" title="Veja seu mês inteiro em segundos." text="Dias verdes mostram saldo positivo. Dias vermelhos mostram saldo negativo. O Kerso transforma o mês em uma leitura rápida e visual." />
-        </section>
-
-        <section id="relatorios" className="section-shell grid items-center gap-10 py-20 lg:grid-cols-[1fr_0.9fr]">
-          <div>
-            <SectionHeading kicker="Relatórios" title="PDF mensal pronto para revisar sua evolução." text="Gastos, receitas, categorias e evolução financeira reunidos em um relatório limpo, exportável e fácil de entender." />
-            <div className="mt-7 flex flex-wrap gap-2">
-              {["gastos", "receitas", "categorias", "evolução financeira"].map((item) => (
-                <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm text-white/64">{item}</span>
+        <section className="section-shell py-20 sm:py-28">
+          <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.052),rgba(255,255,255,0.024))] px-6 py-14 text-center shadow-[0_36px_140px_rgba(0,0,0,0.3)] sm:px-10">
+            <LogoMark compact />
+            <h2 className="mx-auto mt-8 max-w-4xl font-display text-[2.5rem] font-black leading-[1] tracking-[-0.08em] text-white sm:text-[5rem]">
+              O problema não é ganhar pouco.
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-9 text-white/64">
+              O problema é não enxergar o próprio dinheiro. Sem clareza, a ansiedade aumenta, as metas ficam para depois e a sensação de estagnação vira rotina.
+            </p>
+            <div className="mt-9 grid gap-3 sm:grid-cols-4">
+              {["ansiedade", "frustração", "metas adiadas", "estagnação"].map((item) => (
+                <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-5 py-3 text-sm font-semibold text-white/62">{item}</span>
               ))}
             </div>
           </div>
-          <div className="rounded-[2rem] bg-[#f5f7f2] p-7 text-[#101410] shadow-[0_30px_120px_rgba(0,0,0,0.35)]">
-            <FileText size={26} />
-            <h3 className="mt-5 font-display text-3xl font-black tracking-[-0.05em]">Relatório Kerso</h3>
-            <p className="mt-1 text-sm text-black/52">PDF mensal • Maio 2026</p>
-            <div className="mt-10 flex h-40 items-end gap-3">
-              {[42, 72, 56, 86, 48].map((height) => <span key={height} className="w-full rounded-t-xl bg-[#111]" style={{ height: `${height}%` }} />)}
-            </div>
+        </section>
+
+        <section id="kerso" className="section-shell grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[0.9fr_1.1fr]">
+          <KersoPreview />
+          <div>
+            <SectionTitle eyebrow="agora sim, o kerso" title="Foi por isso que criamos o Kerso." text="Kerso não é uma planilha. Kerso não é um aplicativo complicado. Kerso foi criado para trazer clareza antes que o mês vire uma surpresa." />
             <div className="mt-8 space-y-3">
-              <span className="block h-3 rounded-full bg-black/12" />
-              <span className="block h-3 w-3/4 rounded-full bg-black/12" />
-              <span className="block h-3 w-1/2 rounded-full bg-black/12" />
+              {["Registre menos. Entenda mais.", "Veja padrões antes que eles virem problema.", "Tenha consciência sem precisar viver calculando tudo."].map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-4 text-white/68">
+                  <Check size={17} className="text-[#29e184]" />
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="section-shell py-20">
-          <div className="rounded-[2.5rem] border border-white/10 bg-[radial-gradient(circle_at_50%_0%,rgba(32,227,131,0.15),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.025))] px-6 py-14 text-center shadow-[0_35px_140px_rgba(0,0,0,0.32)] sm:px-10">
-            <h2 className="mx-auto max-w-3xl font-display text-4xl font-black leading-[1] tracking-[-0.07em] sm:text-6xl">Seu dinheiro, organizado com a clareza de um aplicativo moderno.</h2>
-            <p className="mx-auto mt-6 max-w-xl leading-8 text-white/62">O Kerso foi pensado para quem quer controle financeiro sem planilhas, sem confusão e sem perder tempo.</p>
-            <div className="mt-9"><StoreButton /></div>
+        <section className="section-shell py-20 sm:py-28">
+          <SectionTitle center eyebrow="transformação" title="Não é sobre controlar cada centavo. É sobre parar de viver no escuro." />
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-[2rem] border border-white/10 bg-white/[0.032] p-6">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-white/34">antes</p>
+              <div className="mt-7 grid gap-3">
+                {["dinheiro sumindo", "desorganização", "impulsividade", "dúvidas"].map((item) => (
+                  <span key={item} className="rounded-2xl bg-black/20 px-4 py-4 text-white/56">{item}</span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-[2rem] border border-[#29e184]/20 bg-[#29e184]/10 p-6 shadow-[0_30px_120px_rgba(41,225,132,0.08)]">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#7df6b6]">depois</p>
+              <div className="mt-7 grid gap-3">
+                {["clareza", "consciência", "controle", "tranquilidade"].map((item) => (
+                  <span key={item} className="rounded-2xl bg-white/[0.06] px-4 py-4 text-white/78">{item}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        <footer id="contato" className="section-shell border-t border-white/10 py-10">
+        <section id="confianca" className="section-shell py-20 sm:py-28">
+          <SectionTitle eyebrow="feito para pessoas reais" title="Sem teatro. Sem promessas vazias. Só clareza para decidir melhor." />
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {trustItems.map(([title, text], index) => {
+              const Icon = [Sparkles, Eye, ShieldCheck, WalletCards][index];
+              return (
+                <article key={title} className="rounded-[1.7rem] border border-white/10 bg-[#080a09]/78 p-6 shadow-[0_18px_80px_rgba(0,0,0,0.16)]">
+                  <Icon size={22} className="text-[#29e184]" />
+                  <h3 className="mt-5 font-display text-2xl font-black tracking-[-0.055em] text-white">{title}</h3>
+                  <p className="mt-3 leading-7 text-white/54">{text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="section-shell py-20 sm:py-28">
+          <div className="relative overflow-hidden rounded-[2.7rem] border border-white/10 bg-[radial-gradient(circle_at_50%_0%,rgba(41,225,132,0.18),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] px-6 py-16 text-center shadow-[0_42px_160px_rgba(0,0,0,0.42)] sm:px-10">
+            <div className="mx-auto mb-9 flex justify-center"><LogoMark /></div>
+            <h2 className="mx-auto max-w-4xl font-display text-[2.5rem] font-black leading-[1] tracking-[-0.085em] text-white sm:text-[5.6rem]">
+              Seu dinheiro merece mais atenção do que sua memória.
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-9 text-white/64">
+              Pare de tentar lembrar onde gastou. Comece a enxergar para onde ele está indo.
+            </p>
+            <div className="mx-auto mt-10 max-w-md"><StoreButton large /></div>
+          </div>
+        </section>
+
+        <footer className="section-shell border-t border-white/10 py-10">
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
             <LogoMark />
-            <div className="flex flex-wrap gap-4 text-sm text-white/58">
-              <Link href="/terms" className="hover:text-white">Termos de Uso</Link>
+            <div className="flex flex-wrap gap-4 text-sm text-white/56">
               <Link href="/privacy" className="hover:text-white">Política de Privacidade</Link>
+              <Link href="/terms" className="hover:text-white">Termos de Uso</Link>
               <a href={SUPPORT_LINK} className="hover:text-white">Contato</a>
               <a href={SUPPORT_LINK} className="hover:text-white">Suporte</a>
             </div>
           </div>
-          <p className="mt-8 text-sm text-white/42">Suporte: <a className="hover:text-white" href={SUPPORT_LINK}>{SUPPORT_EMAIL}</a></p>
+          <div className="mt-8 flex flex-col gap-2 text-sm text-white/38 sm:flex-row sm:items-center sm:justify-between">
+            <p>KERSO © 2026. Gestão financeira inteligente.</p>
+            <a href={SUPPORT_LINK} className="hover:text-white"><LockKeyhole size={14} className="mr-2 inline" />{SUPPORT_EMAIL}</a>
+          </div>
         </footer>
       </div>
     </main>
-  );
-}
-
-function SectionHeading({ kicker, title, text, center = false }: { kicker: string; title: string; text?: string; center?: boolean }) {
-  return (
-    <div className={`${center ? "mx-auto text-center" : ""} max-w-3xl`}>
-      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#20e383]">{kicker}</p>
-      <h2 className="mt-4 font-display text-[2.4rem] font-black leading-[1.02] tracking-[-0.07em] text-white sm:text-[3.6rem]">{title}</h2>
-      {text ? <p className="mt-5 text-base leading-8 text-white/58 sm:text-lg">{text}</p> : null}
-    </div>
   );
 }
